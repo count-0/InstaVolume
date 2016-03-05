@@ -18,6 +18,7 @@
 
 @interface SBHUDView : UIView
 - (NSString *)title;
+-(float) progress;
 @end
 
 @interface SBHUDController : UIViewController

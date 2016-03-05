@@ -4,6 +4,10 @@ UIWindow *volSlidWindow;
 
 VolumeUISlider *volSlid;
 
+//UIView *container;
+
+UIViewController *viewctrl;
+
 NSTimer *timer;
 
 static CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
@@ -14,30 +18,44 @@ static float delayDuration = 1.25;
 static float animationDuration = 0.25;
 
 
+
+
 %hook SpringBoard
 - (void)applicationDidFinishLaunching:(id)arg1 {
 	%orig;
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(upVolSlid:) name:@"SBMediaVolumeChangedNotification" object:[%c(SBMediaController) sharedInstance]];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
 
 	volSlidWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0 - screenHeightScale, screenWidth, screenHeightScale)];
 	volSlidWindow.windowLevel = UIWindowLevelStatusBar + 100.0;
 	volSlidWindow.hidden = YES;
 	volSlidWindow.backgroundColor = [UIColor clearColor];
-	//volSlidWindow.alpha = 1.0;
+	volSlidWindow.alpha = 1.0;
 
-	volSlid = [[VolumeUISlider alloc] initWithFrame:CGRectMake(10, 0, screenWidth-20, screenHeightScale)];
+	//container = [[UIView alloc] initWithFrame:CGRectMake(0,0, screenWidth, screenHeightScale)];
+	//container.backgroundColor = [UIColor blueColor];
+	//container.clipsToBounds = YES;
+
+	viewctrl = [[UIViewController alloc] init];
+	volSlid = [[VolumeUISlider alloc] initWithFrame:CGRectMake(10, 10, screenWidth-20, screenHeightScale)];
 	volSlid.backgroundColor = [UIColor clearColor];
 	volSlid.value = [[%c(SBMediaController) sharedInstance] volume];
 	volSlid.continuous = YES;
 	volSlid.minimumValue = 0.0;
 	volSlid.maximumValue = 1.0;
+	//[volSlid removeConstraints:volSlid.constraints];
+	//[volSlid setTranslatesAutoresizingMaskIntoConstraints:YES];
 	volSlid.maximumTrackTintColor = [UIColor grayColor];
 	[volSlid setThumbImage:[[[UIImage alloc] init] autorelease] forState:UIControlStateNormal];
 	volSlid.minimumTrackTintColor = [UIColor whiteColor];
-	[volSlidWindow addSubview:volSlid];
+	//[container addSubview:volSlid];
+	viewctrl.view = volSlid;
+
+	volSlidWindow.rootViewController = viewctrl;
 
 	[volSlid addTarget:self action:@selector(volSlidMoved:) forControlEvents:UIControlEventValueChanged];
+
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(upVolSlid:) name:@"SBMediaVolumeChangedNotification" object:[%c(SBMediaController) sharedInstance]];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
+
 }
 
 %new
@@ -58,7 +76,12 @@ static float animationDuration = 0.25;
 
 			volSlidWindow.frame = CGRectMake(0, 0 - screenHeightScale, screenWidth, screenHeightScale);
 
-			volSlid.frame = CGRectMake(10, 0, screenWidth-20, screenHeightScale);
+			//viewctrl.view.transform = CGAffineTransformIdentity;
+
+			//container.transform = CGAffineTransformIdentity;
+
+			//container.frame = CGRectMake(0, 0, screenWidth, screenHeightScale);
+
 
 			break;
 		case UIInterfaceOrientationLandscapeLeft:
@@ -66,13 +89,22 @@ static float animationDuration = 0.25;
 
 			volSlidWindow.frame = CGRectMake(0 - screenHeightScale, 0, screenHeightScale, screenHeight);
 
-			volSlid.frame = CGRectMake(screenHeightScale, 0, screenHeight - (screenHeightScale * 2), screenHeightScale);
+			//viewctrl.view.transform = CGAffineTransformMakeRotation(M_PI + M_PI_2);
+
+			//container.transform = CGAffineTransformRotate(container.transform, 270.0/180*M_PI);
+
+			//container.frame = CGRectMake(0, 0, screenHeight, screenHeightScale);
+
+			volSlid.frame = CGRectMake(10, 0, screenHeight-20, screenHeightScale);
+
 
 			break;
 		case UIInterfaceOrientationLandscapeRight:
 			volSlidWindow.transform = CGAffineTransformMakeRotation(M_PI_2);
 
 			volSlidWindow.frame = CGRectMake(screenWidth, 0, screenHeightScale, screenHeight);
+
+			//container.frame = CGRectMake(0, 0, screenHeight, screenHeightScale);
 
 			volSlid.frame = CGRectMake(screenHeightScale, 0, screenHeight - (screenHeightScale * 2), screenHeightScale);
 
@@ -82,7 +114,7 @@ static float animationDuration = 0.25;
 
 			volSlidWindow.frame = CGRectMake(0, screenHeight + screenHeightScale, screenWidth, screenHeightScale);
 
-			volSlid.frame = CGRectMake(10, 0, screenWidth-20, screenHeightScale);
+			//container.frame = CGRectMake(0, 0, screenWidth, screenHeightScale);
 
 			break;
 	}
@@ -91,20 +123,11 @@ static float animationDuration = 0.25;
 
 %hook SBHUDController
 - (void)presentHUDView:(SBHUDView *)hud autoDismissWithDelay:(double)arg2 {
-		if ([hud.title isEqual:@"Ringer"]) {
-			if ([[%c(SBMediaController) sharedInstance] isRingerMuted]) {
-				volSlid.value = 0.0;
-			}
-			else {
-				volSlid.value = 1.0;
-			}
-		}
 
-		else {
-			volSlid.value = [[%c(SBMediaController) sharedInstance] volume];
-		}
+		volSlid.value = [hud progress];
 
 		[self volSlideShouldShow:nil];
+		//%orig;
 }
 
 %new
@@ -180,10 +203,59 @@ static float animationDuration = 0.25;
 
 %end
 
+/*
+@implementation VolumeViewController
+
+-(void)viewWillLoad
+{
+
+}
+
+
+
+@end
+*/
+
 @implementation VolumeUISlider
+
+- (instancetype)initWithFrame:(CGRect)aRect
+{
+	self = [super initWithFrame:aRect];
+	//[self removeConstraints:self.constraints];
+	[self setTranslatesAutoresizingMaskIntoConstraints:YES];
+	return self;
+}
 - (CGRect)trackRectForBounds:(CGRect)bounds{
-    CGRect customBounds = CGRectMake(bounds.origin.x, bounds.size.height/2, bounds.size.width, 5);
+
+    CGRect customBounds = bounds;
+    customBounds.size.height = 5;
     return customBounds;
+
+}
+
+- (void)layoutSubviews
+{
+	[super layoutSubviews];
+	HBLogDebug(@"Bounds: %@", NSStringFromCGRect(self.frame));
+	switch ([[UIApplication sharedApplication] _frontMostAppOrientation]) {
+		case UIInterfaceOrientationPortrait:
+			self.transform = CGAffineTransformIdentity;
+			self.frame = CGRectMake(10, 10, screenWidth-20, screenHeightScale);
+			break;
+		case UIInterfaceOrientationLandscapeLeft:
+			self.transform = CGAffineTransformMakeRotation(M_PI + M_PI_2);
+			self.frame = CGRectMake(10, 10, screenHeightScale, screenHeight-20);
+			break;
+		case UIInterfaceOrientationLandscapeRight:
+			self.transform = CGAffineTransformMakeRotation(M_PI_2);
+			self.frame = CGRectMake(-10, 10, screenHeightScale, screenHeight-20);
+			break;
+		case UIInterfaceOrientationPortraitUpsideDown:
+			self.transform = CGAffineTransformMakeRotation(M_PI);
+			self.frame = CGRectMake(10, 10, screenWidth-20, screenHeightScale);
+			break;
+	}
+	HBLogDebug(@"Bounds: %@", NSStringFromCGRect(self.frame));
 }
 
 @end
