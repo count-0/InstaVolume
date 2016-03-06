@@ -4,8 +4,6 @@ UIWindow *volSlidWindow;
 
 VolumeUISlider *volSlid;
 
-//UIView *container;
-
 UIViewController *viewctrl;
 
 NSTimer *timer;
@@ -30,10 +28,6 @@ static float animationDuration = 0.25;
 	volSlidWindow.backgroundColor = [UIColor clearColor];
 	volSlidWindow.alpha = 1.0;
 
-	//container = [[UIView alloc] initWithFrame:CGRectMake(0,0, screenWidth, screenHeightScale)];
-	//container.backgroundColor = [UIColor blueColor];
-	//container.clipsToBounds = YES;
-
 	viewctrl = [[UIViewController alloc] init];
 	volSlid = [[VolumeUISlider alloc] initWithFrame:CGRectMake(10, 10, screenWidth-20, screenHeightScale)];
 	volSlid.backgroundColor = [UIColor clearColor];
@@ -41,12 +35,9 @@ static float animationDuration = 0.25;
 	volSlid.continuous = YES;
 	volSlid.minimumValue = 0.0;
 	volSlid.maximumValue = 1.0;
-	//[volSlid removeConstraints:volSlid.constraints];
-	//[volSlid setTranslatesAutoresizingMaskIntoConstraints:YES];
 	volSlid.maximumTrackTintColor = [UIColor grayColor];
 	[volSlid setThumbImage:[[[UIImage alloc] init] autorelease] forState:UIControlStateNormal];
 	volSlid.minimumTrackTintColor = [UIColor whiteColor];
-	//[container addSubview:volSlid];
 	viewctrl.view = volSlid;
 
 	volSlidWindow.rootViewController = viewctrl;
@@ -76,12 +67,7 @@ static float animationDuration = 0.25;
 
 			volSlidWindow.frame = CGRectMake(0, 0 - screenHeightScale, screenWidth, screenHeightScale);
 
-			//viewctrl.view.transform = CGAffineTransformIdentity;
-
-			//container.transform = CGAffineTransformIdentity;
-
-			//container.frame = CGRectMake(0, 0, screenWidth, screenHeightScale);
-
+			volSlid.frame = CGRectMake(10, 10, screenWidth-20, screenHeightScale);
 
 			break;
 		case UIInterfaceOrientationLandscapeLeft:
@@ -89,22 +75,13 @@ static float animationDuration = 0.25;
 
 			volSlidWindow.frame = CGRectMake(0 - screenHeightScale, 0, screenHeightScale, screenHeight);
 
-			//viewctrl.view.transform = CGAffineTransformMakeRotation(M_PI + M_PI_2);
-
-			//container.transform = CGAffineTransformRotate(container.transform, 270.0/180*M_PI);
-
-			//container.frame = CGRectMake(0, 0, screenHeight, screenHeightScale);
-
 			volSlid.frame = CGRectMake(10, 0, screenHeight-20, screenHeightScale);
-
 
 			break;
 		case UIInterfaceOrientationLandscapeRight:
 			volSlidWindow.transform = CGAffineTransformMakeRotation(M_PI_2);
 
 			volSlidWindow.frame = CGRectMake(screenWidth, 0, screenHeightScale, screenHeight);
-
-			//container.frame = CGRectMake(0, 0, screenHeight, screenHeightScale);
 
 			volSlid.frame = CGRectMake(screenHeightScale, 0, screenHeight - (screenHeightScale * 2), screenHeightScale);
 
@@ -113,8 +90,6 @@ static float animationDuration = 0.25;
 			volSlidWindow.transform = CGAffineTransformMakeRotation(M_PI);
 
 			volSlidWindow.frame = CGRectMake(0, screenHeight + screenHeightScale, screenWidth, screenHeightScale);
-
-			//container.frame = CGRectMake(0, 0, screenWidth, screenHeightScale);
 
 			break;
 	}
@@ -203,25 +178,12 @@ static float animationDuration = 0.25;
 
 %end
 
-/*
-@implementation VolumeViewController
-
--(void)viewWillLoad
-{
-
-}
-
-
-
-@end
-*/
 
 @implementation VolumeUISlider
 
 - (instancetype)initWithFrame:(CGRect)aRect
 {
 	self = [super initWithFrame:aRect];
-	//[self removeConstraints:self.constraints];
 	[self setTranslatesAutoresizingMaskIntoConstraints:YES];
 	return self;
 }
@@ -236,7 +198,6 @@ static float animationDuration = 0.25;
 - (void)layoutSubviews
 {
 	[super layoutSubviews];
-	HBLogDebug(@"Bounds: %@", NSStringFromCGRect(self.frame));
 	switch ([[UIApplication sharedApplication] _frontMostAppOrientation]) {
 		case UIInterfaceOrientationPortrait:
 			self.transform = CGAffineTransformIdentity;
@@ -255,7 +216,6 @@ static float animationDuration = 0.25;
 			self.frame = CGRectMake(10, 10, screenWidth-20, screenHeightScale);
 			break;
 	}
-	HBLogDebug(@"Bounds: %@", NSStringFromCGRect(self.frame));
 }
 
 @end
