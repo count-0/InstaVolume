@@ -1,7 +1,7 @@
 include $(THEOS)/makefiles/common.mk
 
 BUNDLE_NAME = IVPref
-IVPref_FILES = IVPRootListController.m
+IVPref_FILES = IVPRootListController.m BetterPSSliderTableCell.mm
 IVPref_INSTALL_PATH = /Library/PreferenceBundles
 IVPref_FRAMEWORKS = UIKit
 IVPref_PRIVATE_FRAMEWORKS = Preferences

@@ -1,3 +1,4 @@
+#include "IVPreferencesManager.h"
 
 @interface UIApplication (VolumeSlider)
 - (UIInterfaceOrientation)_frontMostAppOrientation;

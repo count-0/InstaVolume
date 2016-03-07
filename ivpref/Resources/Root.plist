@@ -22,7 +22,7 @@
 			<key>label</key>
 			<string>Enabled</string>
 			<key>PostNotification</key>
-			<string>com.dopeteam.instavolume/ReloadPrefs</string>
+			<string>com.dopeteam.ivpref/ReloadPrefs</string>
 			<key>icon</key>
 			<string>Images/Enabled.png</string>
 		</dict>
@@ -36,7 +36,7 @@
 			<key>cell</key>
 			<string>PSStaticTextCell</string>
 			<key>label</key>
-			<string>Y-Location</string>
+			<string>Y-Location Percentage</string>
 			<key>icon</key>
 			<string>Images/yaxis.png</string>
 		</dict>
@@ -44,19 +44,21 @@
 			<key>cell</key>
 			<string>PSSliderCell</string>
 			<key>default</key>
-			<real>15</real>
+			<real>2</real>
 			<key>defaults</key>
-			<string>com.dopeteam.dopelock</string>
+			<string>com.dopeteam.ivpref</string>
 			<key>key</key>
-			<string>height</string>
+			<string>percentage</string>
 			<key>showValue</key>
 			<true/>
 			<key>min</key>
 			<real>0</real>
 			<key>max</key>
-			<real>640</real>
+			<real>100</real>
 			<key>PostNotification</key>
-			<string>com.dopeteam.instavolume/ReloadPrefs</string>
+			<string>com.dopeteam.ivpref/ReloadPrefs</string>
+			<key>cellClass</key>
+  			<string>BetterPSSliderTableCell</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -72,7 +74,7 @@
 			<key>default</key>
 			<real>5</real>
 			<key>defaults</key>
-			<string>com.dopeteam.dopelock</string>
+			<string>com.dopeteam.ivpref</string>
 			<key>key</key>
 			<string>height</string>
 			<key>showValue</key>
@@ -82,7 +84,9 @@
 			<key>max</key>
 			<real>15</real>
 			<key>PostNotification</key>
-			<string>com.dopeteam.instavolume/ReloadPrefs</string>
+			<string>com.dopeteam.ivpref/ReloadPrefs</string>
+			<key>cellClass</key>
+  			<string>BetterPSSliderTableCell</string>
 		</dict>
 		<dict>
 			<key>cell</key>

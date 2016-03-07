@@ -1,9 +1,13 @@
 Package: com.dopeteam.instavolume
 Name: InstaVolume
-Depends: mobilesubstrate
-Version: 0.1.1
+Depends: mobilesubstrate, ws.hbang.common
+Version: 0.1.2
 Architecture: iphoneos-arm
-Description: Instagrams Volume hud for Springboard. The code is highly implemented from logans volume tweak. Thanks logan!!!
+Description: Instagrams Volume hud for Springboard.
+ Instagrams Volume hud for Springboard. I referenced Logan's Volume tweak to help me along.
+ Changelog:
+ - Added a preferences pane to allow you to customize the height of the UISlider and the Location on Screen.
 Maintainer: dopeteam <wizagesmax@gmail.com>
 Author: dopeteam <wizagesmax@gmail.com>
 Section: Tweaks
+Depiction: http://wizages.com/cydia/depictions/?dep=com.dopeteam.instavolume
