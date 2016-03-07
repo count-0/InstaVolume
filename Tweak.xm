@@ -11,12 +11,9 @@ NSTimer *timer;
 static CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
 static CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
 
-static CGFloat screenHeightScale = 40;
+static CGFloat screenHeightScale = 10;
 static float delayDuration = 1.25;
 static float animationDuration = 0.25;
-
-
-
 
 %hook SpringBoard
 - (void)applicationDidFinishLaunching:(id)arg1 {
@@ -110,7 +107,8 @@ static float animationDuration = 0.25;
 	switch ([[UIApplication sharedApplication] _frontMostAppOrientation]) {
 		case UIInterfaceOrientationPortrait:
 			[self showVolSlide:CGRectMake(0, 0, screenWidth, screenHeightScale)];
-
+			//[[UIApplication sharedApplication] setStatusBarHidden:YES];
+			//[[%c(SBAppStatusBarManager) sharedInstance] hideStatusBar]; 
 			break;
 		case UIInterfaceOrientationLandscapeLeft:
 			[self showVolSlide:CGRectMake(0, 0, screenHeightScale, screenHeight)];
@@ -132,6 +130,8 @@ static float animationDuration = 0.25;
 	switch ([[UIApplication sharedApplication] _frontMostAppOrientation]) {
 		case UIInterfaceOrientationPortrait:
 			[self hideVolSlide:CGRectMake(0, 0 - screenHeightScale, screenWidth, screenHeightScale)];
+			//[[UIApplication sharedApplication] setStatusBarHidden:NO];
+			//[[%c(SBAppStatusBarManager) sharedInstance] showStatusBar]; 
 
 			break;
 		case UIInterfaceOrientationLandscapeLeft:

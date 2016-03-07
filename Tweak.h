@@ -1,3 +1,4 @@
+
 @interface UIApplication (VolumeSlider)
 - (UIInterfaceOrientation)_frontMostAppOrientation;
 @end
@@ -20,6 +21,7 @@
 - (NSString *)title;
 -(float) progress;
 @end
+
 
 @interface SBHUDController : UIViewController
 + (SBHUDController *)sharedHUDController;
