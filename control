@@ -1,12 +1,12 @@
 Package: com.dopeteam.instavolume
 Name: InstaVolume
-Depends: mobilesubstrate, ws.hbang.common
-Version: 0.1.2
+Depends: mobilesubstrate, ws.hbang.common, org.thebigboss.libcolorpicker
+Version: 0.1.4
 Architecture: iphoneos-arm
 Description: Instagrams Volume hud for Springboard.
  Instagrams Volume hud for Springboard. I referenced Logan's Volume tweak to help me along.
  Changelog:
- - Added a preferences pane to allow you to customize the height of the UISlider and the Location on Screen.
+ - Fixed color settings cut off
 Maintainer: dopeteam <wizagesmax@gmail.com>
 Author: dopeteam <wizagesmax@gmail.com>
 Section: Tweaks

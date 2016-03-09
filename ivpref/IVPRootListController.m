@@ -1,6 +1,7 @@
 #include "IVPRootListController.h"
 #import <CepheiPrefs/HBSupportController.h>
 #include "Generic.h"
+#import <libcolorpicker.h>
 @implementation IVPRootListController
 
 + (NSString *)hb_specifierPlist {

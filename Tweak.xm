@@ -12,6 +12,8 @@ static CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
 static CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
 static float delayDuration = 1.25;
 static float animationDuration = 0.25;
+static NSString *const kIVBackgroundColorKey = @"backgroundColor";
+static NSString *const kIVForegroundColorKey = @"foregroundColor";
 
 %hook SpringBoard
 - (void)applicationDidFinishLaunching:(id)arg1 {
@@ -30,9 +32,9 @@ static float animationDuration = 0.25;
 	volSlid.continuous = YES;
 	volSlid.minimumValue = 0.0;
 	volSlid.maximumValue = 1.0;
-	volSlid.maximumTrackTintColor = [UIColor grayColor];
-	[volSlid setThumbImage:[[[UIImage alloc] init] autorelease] forState:UIControlStateNormal];
-	volSlid.minimumTrackTintColor = [UIColor whiteColor];
+	volSlid.maximumTrackTintColor = [[IVPreferencesManager sharedInstance] colorForPreference:kIVBackgroundColorKey fallback:@"#808080"];
+	volSlid.minimumTrackTintColor = [[IVPreferencesManager sharedInstance] colorForPreference:kIVForegroundColorKey fallback:@"#FFFFFF"];
+	[volSlid setThumbImage:[[[UIImage alloc] init] autorelease] forState:UIControlStateNormal];\
 	viewctrl.view = volSlid;
 
 	volSlidWindow.rootViewController = viewctrl;
@@ -95,7 +97,8 @@ static float animationDuration = 0.25;
 - (void)presentHUDView:(SBHUDView *)hud autoDismissWithDelay:(double)arg2 {
 		if([[IVPreferencesManager sharedInstance] enabled]){
 			volSlid.value = [hud progress];
-
+			volSlid.maximumTrackTintColor = [[IVPreferencesManager sharedInstance] colorForPreference:kIVBackgroundColorKey fallback:@"#808080"];
+			volSlid.minimumTrackTintColor = [[IVPreferencesManager sharedInstance] colorForPreference:kIVForegroundColorKey fallback:@"#FFFFFF"];
 			[self volSlideShouldShow:nil];
 		}
 		else

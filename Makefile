@@ -4,6 +4,7 @@ TWEAK_NAME = InstaVolume
 InstaVolume_FILES = Tweak.xm IVPreferencesManager.m
 InstaVolume_FRAMEWORKS = Foundation UIKit CoreGraphics
 InstaVolume_EXTRA_FRAMEWORKS = Cephei
+InstaVolume_LIBRARIES = colorpicker
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 

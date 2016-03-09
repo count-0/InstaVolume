@@ -1,11 +1,12 @@
 include $(THEOS)/makefiles/common.mk
 
 BUNDLE_NAME = IVPref
-IVPref_FILES = IVPRootListController.m BetterPSSliderTableCell.mm
+IVPref_FILES = IVPRootListController.m HBColorPickerCell.m BetterPSSliderTableCell.mm
 IVPref_INSTALL_PATH = /Library/PreferenceBundles
 IVPref_FRAMEWORKS = UIKit
 IVPref_PRIVATE_FRAMEWORKS = Preferences
-IVPref_EXTRA_FRAMEWORKS = CepheiPrefs
+IVPref_EXTRA_FRAMEWORKS = CepheiPrefs Cephei
+IVPref_LIBRARIES = colorpicker
 
 include $(THEOS_MAKE_PATH)/bundle.mk
 

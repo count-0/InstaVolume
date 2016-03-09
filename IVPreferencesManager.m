@@ -1,9 +1,11 @@
 #import "IVPreferencesManager.h"
 #import <Cephei/HBPreferences.h>
+#import <libcolorpicker.h>
 
 static NSString *const kIVEnabledKey = @"enabled";
 static NSString *const kIVPercentageKey = @"percentage";
 static NSString *const kIVHeightKey = @"height";
+
 
 @implementation IVPreferencesManager {
 	HBPreferences *_preferences;
@@ -29,6 +31,15 @@ static NSString *const kIVHeightKey = @"height";
 	}
 
 	return self;
+}
+
+- (UIColor *)colorForPreference:(NSString *)string fallback:(NSString *)fallback {
+
+	NSString *potentialIndividualTint = _preferences[string];
+	if (potentialIndividualTint) {
+		return LCPParseColorString(potentialIndividualTint, @"#000000");
+	}
+	return LCPParseColorString(fallback, @"#000000");
 }
 
 #pragma mark - Memory management

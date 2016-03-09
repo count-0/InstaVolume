@@ -8,4 +8,5 @@
 
 
 + (instancetype)sharedInstance;
+- (UIColor *)colorForPreference:(NSString *)string fallback:(NSString *)fallback ;
 @end
